@@ -52,17 +52,17 @@ def test_get_all_courses(client, course_factory):
 @pytest.mark.django_db
 def test_get_courses_filter_id(client, course_factory):
     courses = course_factory(_quantity=5)
-    response = client.get(f'/api/v1/courses/?id={courses[0].id}/')
+    response = client.get('/api/v1/courses/', data={'id': courses[0].id})
     assert response.status_code == 200
     data = response.json()
-    assert data['name'] == courses[0].name
+    assert data[0]['name'] == courses[0].name
 
 
 """проверка фильтрации списка курсов по name"""
 @pytest.mark.django_db
 def test_get_courses_filter_name(client, course_factory):
     courses = course_factory(_quantity=5)
-    response = client.get(f'/api/v1/courses/?name={courses[0].name}/')
+    response = client.get('/api/v1/courses/', data={'name': courses[0].name})
     assert response.status_code == 200
     data = response.json()
     for i, c in enumerate(data):
